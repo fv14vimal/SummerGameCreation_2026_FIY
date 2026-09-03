@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="DxPlus">
+      <UniqueIdentifier>{d4677764-36a0-4b1f-93a7-bd53ba66e1ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DxPlus\ヘッダー ファイル">
+      <UniqueIdentifier>{4c27c443-cdd9-4baa-84ab-9bbe457307b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DxPlus\ソース ファイル">
+      <UniqueIdentifier>{d100bef8-58f7-4da7-b0dd-63207defa94c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DxPlus\Animation.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Debug.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\DxPlus.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\DxPlusConstants.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\DxWrapper.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\HighResolutionTimer.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Input.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\InputConstants.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\InputManager.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Primitive2D.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Sprite.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Text.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\TextAnimator.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Utils.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxPlus\Vector2.h">
+      <Filter>DxPlus\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="WinMain.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DxPlus\Animation.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\Debug.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\DxPlus.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\DxWrapper.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\Input.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\InputManager.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\Primitive2D.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\Sprite.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\Text.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\TextAnimator.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DxPlus\Utils.cpp">
+      <Filter>DxPlus\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
