@@ -21,9 +21,9 @@ bool isMovingRight = true;
 
 void Game_Init()
 {
-    DxLib::SetBackgroundColor(0, 128, 255);
-    playerID = DxPlus::Sprite::Load(L"./Data/Images/character.png");
-    backID = DxPlus::Sprite::Load(L"./Data/Images/back.png");
+    DxLib::SetBackgroundColor(0, 0, 0);
+    playerID = DxPlus::Sprite::Load(L"./Data/Images/mouse.png");
+    backID = DxPlus::Sprite::Load(L"./Data/Images/background.png");
     Game_Reset();
 }
 
@@ -116,18 +116,18 @@ void Game_Play()
 void Game_Render()
 {
    
-    constexpr DxPlus::Vec2 BG_SCALE = { 1.0f, 1.0f };
-    constexpr DxPlus::Vec2 BG_CENTER = { 0.0f, 0.0f };
-    DxPlus::Sprite::Draw(backID, { 0.0f, 0.0f }, BG_SCALE, BG_CENTER);
 
-    
+    constexpr DxPlus::Vec2 BG_SCALE = { 1.6f, 1.6f };
+    constexpr DxPlus::Vec2 BG_CENTER = { 0.0f, 0.0f };
+    DxPlus::Sprite::Draw(backID,{ 0.0f, 0.0f },BG_SCALE,BG_CENTER);
+
+
     if (player.isActive)
     {
-        constexpr DxPlus::Vec2 PLAYER_SCALE = { 1.0f, 1.0f };
-        constexpr DxPlus::Vec2 PLAYER_CENTER = { 0.5f, 0.5f }; 
-        DxPlus::Sprite::Draw(player.spriteID, player.position, PLAYER_SCALE, PLAYER_CENTER);
+        constexpr DxPlus::Vec2 PLAYER_SCALE = { 0.15f, 0.15f };
+        constexpr DxPlus::Vec2 PLAYER_CENTER = { 0.5f, 0.5f };
+        DxPlus::Sprite::Draw(player.spriteID,player.position,PLAYER_SCALE,PLAYER_CENTER);
     }
-
    
     if (gameFadeTimer > 0.0f)
     {
