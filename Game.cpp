@@ -163,14 +163,10 @@ void Game_Play()
     player.position.x += player.velocity.x;
     ResolveWallCollisions(prevX);
 
-<<<<<<< Updated upstream
+
     player.position.y += 5.0f;
 
-    //書き足した端の当たり判定
-    //両端左右
-=======
-    
->>>>>>> Stashed changes
+
     if (player.position.x < playerRadius)
     {
         player.position.x = playerRadius;
@@ -179,7 +175,7 @@ void Game_Play()
     {
         player.position.x = DxPlus::CLIENT_WIDTH - playerRadius;
     }
-    //両端上下
+   
     if (player.position.y < playerRadius)
     {
         player.position.y = playerRadius;
