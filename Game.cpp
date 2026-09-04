@@ -8,6 +8,7 @@ constexpr float MOVE_SPEED = 3.0f;
 constexpr float PLAYER_SCALE_MAG = 0.05f;
 constexpr float WALL_HALF_THICKNESS = 1.5f;
 constexpr DxPlus::Vec2 ARROW_POSITION = { 1180.0f, 60.0f }; // 画面右上の固定位置
+constexpr DxPlus::Vec2 ARROW_POSITION = { 1180.0f, 60.0f };
 
 struct WallRect
 {
@@ -163,10 +164,14 @@ void Game_Play()
     player.position.x += player.velocity.x;
     ResolveWallCollisions(prevX);
 
+<<<<<<< Updated upstream
     player.position.y += 5.0f;
 
     //書き足した端の当たり判定
     //両端左右
+=======
+    
+>>>>>>> Stashed changes
     if (player.position.x < playerRadius)
     {
         player.position.x = playerRadius;
@@ -198,6 +203,23 @@ void Game_Render()
     DxPlus::Primitive2D::DrawLine({ 0, 0 }, { 1280, 0 }, DxLib::GetColor(0, 0, 0), 3.0f);
     DxPlus::Primitive2D::DrawLine({ 0, 720 }, { 1280, 720 }, DxLib::GetColor(0, 0, 0), 3.0f);
 
+    //SIDE 1
+    DxPlus::Primitive2D::DrawLine({ 0, 240 }, { 300, 240 }, DxLib::GetColor(194, 29, 17), 5.0f);
+    DxPlus::Primitive2D::DrawLine({ 150, 440 }, { 427, 440 }, DxLib::GetColor(194, 29, 17), 5.0f);
+
+    //SIDE 2
+    DxPlus::Primitive2D::DrawLine({ 427, 140 }, { 700, 140 }, DxLib::GetColor(194, 29, 17), 5.0f);
+    DxPlus::Primitive2D::DrawLine({ 550, 290 }, { 854, 290 }, DxLib::GetColor(194, 29, 17), 5.0f);
+    DxPlus::Primitive2D::DrawLine({ 427, 400 }, { 600, 400 }, DxLib::GetColor(194, 29, 17), 5.0f);
+    DxPlus::Primitive2D::DrawLine({ 550, 550 }, { 854, 550 }, DxLib::GetColor(194, 29, 17), 5.0f);
+
+    //SIDE 3
+    DxPlus::Primitive2D::DrawLine({ 854, 240 }, { 1100, 240 }, DxLib::GetColor(194, 29, 17), 5.0f);
+    DxPlus::Primitive2D::DrawLine({ 854, 400 }, { 1280, 400 }, DxLib::GetColor(194, 29, 17), 5.0f);
+    DxPlus::Primitive2D::DrawLine({ 1024, 550 }, { 1280, 550 }, DxLib::GetColor(194, 29, 17), 5.0f);
+
+
+
     if (player.isActive)
     {
         float scaleX = isMovingRight ? -PLAYER_SCALE_MAG : PLAYER_SCALE_MAG;
@@ -210,11 +232,13 @@ void Game_Render()
     }
 
     if (gameFadeTimer > 0.0f)
+    /*if (gameFadeTimer > 0.0f)
     {
         DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)(255 * gameFadeTimer));
         DxPlus::Primitive2D::DrawRect({ 0,0 }, { DxPlus::CLIENT_WIDTH, DxPlus::CLIENT_HEIGHT }, DxLib::GetColor(0, 0, 0));
         DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
     }
+    }*/
 }
 
 void Game_End()
