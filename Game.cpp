@@ -5,9 +5,9 @@
 #include <cmath>
 
 constexpr float MOVE_SPEED = 3.0f;
-constexpr float PLAYER_SCALE_MAG = 0.05f; 
-constexpr float WALL_HALF_THICKNESS = 1.5f; 
-
+constexpr float PLAYER_SCALE_MAG = 0.05f;
+constexpr float WALL_HALF_THICKNESS = 1.5f;
+constexpr DxPlus::Vec2 ARROW_POSITION = { 1180.0f, 60.0f }; // 画面右上の固定位置
 
 struct WallRect
 {
@@ -23,19 +23,21 @@ extern int nextScene;
 int gameState;
 float gameFadeTimer;
 int playerID;
+int arrowID;
 int backID;
 Entity2D player;
 bool wasPressed = false;
 bool isMovingRight = true;
 
-
 static DxPlus::Vec2 playerCenterPx = { 0.0f, 0.0f };
-static float playerRadius = 0.0f; 
+static DxPlus::Vec2 arrowCenterPx = { 0.0f, 0.0f };
+static float playerRadius = 0.0f;
 
 void Game_Init()
 {
     DxLib::SetBackgroundColor(0, 0, 0);
     playerID = DxPlus::Sprite::Load(L"./Data/Images/mouse.png");
+    arrowID = DxPlus::Sprite::Load(L"./Data/Images/arrow.png");
     backID = DxPlus::Sprite::Load(L"./Data/Images/background.png");
 
     int imgW = 0, imgH = 0;
@@ -43,7 +45,10 @@ void Game_Init()
     playerCenterPx = { imgW * 0.5f, imgH * 0.5f };
     playerRadius = imgW * PLAYER_SCALE_MAG * 0.5f;
 
-    
+    int arrowW = 0, arrowH = 0;
+    DxLib::GetGraphSize(arrowID, &arrowW, &arrowH);
+    arrowCenterPx = { arrowW * 0.5f, arrowH * 0.5f };
+
     for (int i = 0; i < WALL_COUNT; ++i)
     {
         wallRects[i].leftTop = { WALL_X[i] - WALL_HALF_THICKNESS, 0.0f };
@@ -81,19 +86,16 @@ void HandleInput()
     player.velocity.x = keyState ? (isMovingRight ? MOVE_SPEED : -MOVE_SPEED) : 0.0f;
 }
 
-
 void ResolveWallCollisions(float prevX)
 {
     for (int i = 0; i < WALL_COUNT; ++i)
     {
         const WallRect& rect = wallRects[i];
 
-       
         float closestX = player.position.x;
         if (closestX < rect.leftTop.x) closestX = rect.leftTop.x;
         else if (closestX > rect.rightBottom.x) closestX = rect.rightBottom.x;
 
-        
         float closestY = player.position.y;
         if (closestY < rect.leftTop.y) closestY = rect.leftTop.y;
         else if (closestY > rect.rightBottom.y) closestY = rect.rightBottom.y;
@@ -104,7 +106,6 @@ void ResolveWallCollisions(float prevX)
 
         if (distSq < playerRadius * playerRadius)
         {
-            
             if (prevX <= WALL_X[i])
             {
                 player.position.x = rect.leftTop.x - playerRadius;
@@ -188,13 +189,16 @@ void Game_Render()
         float scaleX = isMovingRight ? -PLAYER_SCALE_MAG : PLAYER_SCALE_MAG;
         DxPlus::Vec2 playerScale = { scaleX, PLAYER_SCALE_MAG };
         DxPlus::Sprite::Draw(player.spriteID, player.position, playerScale, playerCenterPx);
+
+        // 矢印：画面右上に固定表示、移動方向に応じて180度回転させる
+        float arrowRotation = isMovingRight ? DxPlus::Deg2Rad * 180.0f :0.0f;
+        DxPlus::Sprite::Draw(arrowID, ARROW_POSITION, { 0.05f, 0.05f }, arrowCenterPx, arrowRotation);
     }
 
     if (gameFadeTimer > 0.0f)
     {
         DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)(255 * gameFadeTimer));
-        DxPlus::Primitive2D::DrawRect({ 0,0 },
-            { DxPlus::CLIENT_WIDTH, DxPlus::CLIENT_HEIGHT }, DxLib::GetColor(0, 0, 0));
+        DxPlus::Primitive2D::DrawRect({ 0,0 }, { DxPlus::CLIENT_WIDTH, DxPlus::CLIENT_HEIGHT }, DxLib::GetColor(0, 0, 0));
         DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
     }
 }
