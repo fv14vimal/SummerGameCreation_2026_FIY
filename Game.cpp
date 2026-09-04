@@ -55,7 +55,7 @@ void Game_Init()
 
 void ResetPlayerToStart()
 {
-    player.position = { DxPlus::CLIENT_WIDTH / 2.0f, DxPlus::CLIENT_HEIGHT / 2.0f };
+    player.position = { DxPlus::CLIENT_WIDTH / 35.0f, DxPlus::CLIENT_HEIGHT / 25.0f };
     player.velocity = { 0, 0 };
     player.spriteID = playerID;
     player.isActive = true;
@@ -161,6 +161,16 @@ void Game_Play()
     float prevX = player.position.x;
     player.position.x += player.velocity.x;
     ResolveWallCollisions(prevX);
+
+    //書き足した端の当たり判定
+    if (player.position.x < playerRadius)
+    {
+        player.position.x = playerRadius;
+    }
+    if (player.position.x > DxPlus::CLIENT_WIDTH - playerRadius)
+    {
+        player.position.x = DxPlus::CLIENT_WIDTH - playerRadius;
+    }
 }
 
 void Game_Render()
@@ -170,6 +180,8 @@ void Game_Render()
     DxPlus::Sprite::Draw(backID, { 0.0f, 0.0f }, BG_SCALE, BG_CENTER);
     DxPlus::Primitive2D::DrawLine({ 427, 0 }, { 427, 720 }, DxLib::GetColor(0, 0, 0), 3.0f);
     DxPlus::Primitive2D::DrawLine({ 854, 0 }, { 854, 720 }, DxLib::GetColor(0, 0, 0), 3.0f);
+    DxPlus::Primitive2D::DrawLine({ 0, 0 }, { 0, 720 }, DxLib::GetColor(0, 0, 0), 3.0f);
+    DxPlus::Primitive2D::DrawLine({ 1280, 0 }, { 1280, 720 }, DxLib::GetColor(0, 0, 0), 3.0f);
 
     if (player.isActive)
     {

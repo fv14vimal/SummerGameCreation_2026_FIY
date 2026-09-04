@@ -102,7 +102,7 @@ void Title_Render()
     {
         DxPlus::Text::DrawString(L"Push SPACE", 
             { DxPlus::CLIENT_WIDTH * 0.5f, DxPlus::CLIENT_HEIGHT * 0.75f }, 
-            DxLib::GetColor(255,255,0), DxPlus::Text::TextAlign::MIDDLE_CENTER, 
+            DxLib::GetColor(90,90,90), DxPlus::Text::TextAlign::MIDDLE_CENTER, 
             { 2.0f, 2.0f });
     }
 
