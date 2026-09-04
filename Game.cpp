@@ -15,6 +15,31 @@ struct WallRect
     DxPlus::Vec2 rightBottom;
 };
 
+struct Line
+{
+    DxPlus::Vec2 start;
+    DxPlus::Vec2 end;
+};
+
+constexpr Line sideLines[] =
+{
+    //SIDE1
+    {{0,240},{300,240}},
+    {{150,440},{427,440}},
+
+    //SIDE2
+    {{427,140},{700,140}},
+    {{550,290},{854,290}},
+    {{427,400},{600,400}},
+    {{550,550},{854,550}},
+
+    //SIDE3
+    {{854,240},{1100,240}},
+    {{854,400},{1280,400}},
+    {{1024,550},{1280,550}}
+};
+constexpr int SIDE_LINE_COUNT =
+sizeof(sideLines) / sizeof(sideLines[0]);
 constexpr float WALL_X[] = { 427.0f, 854.0f };
 constexpr int WALL_COUNT = sizeof(WALL_X) / sizeof(WALL_X[0]);
 static WallRect wallRects[WALL_COUNT];
@@ -86,6 +111,7 @@ void HandleInput()
     player.velocity.x = keyState ? (isMovingRight ? MOVE_SPEED : -MOVE_SPEED) : 0.0f;
 }
 
+//真ん中の壁当たり判定
 void ResolveWallCollisions(float prevX)
 {
     for (int i = 0; i < WALL_COUNT; ++i)
@@ -115,6 +141,27 @@ void ResolveWallCollisions(float prevX)
                 player.position.x = rect.rightBottom.x + playerRadius;
             }
             player.velocity.x = 0.0f;
+        }
+    }
+}
+
+//赤線の当たり判定
+void ResolveFloorCollisions(float prevY)
+{
+    for (int i = 0; i < SIDE_LINE_COUNT; ++i)
+    {
+        const Line& line = sideLines[i];
+
+        if (player.position.x + playerRadius >= line.start.x &&
+            player.position.x - playerRadius <= line.end.x)
+        {
+            if (prevY + playerRadius <= line.start.y &&
+                player.position.y + playerRadius >= line.start.y)
+            {
+                player.position.y = line.start.y - playerRadius;
+
+                player.velocity.y = 0.0f;
+            }
         }
     }
 }
@@ -160,13 +207,12 @@ void Game_Play()
 {
     HandleInput();
     float prevX = player.position.x;
+    float prevY = player.position.y;
     player.position.x += player.velocity.x;
+    player.position.y += 3.5f;      //重力
     ResolveWallCollisions(prevX);
-
-
-    player.position.y += 5.0f;
-
-
+    ResolveFloorCollisions(prevY);
+    //画面端左右の当たり判定
     if (player.position.x < playerRadius)
     {
         player.position.x = playerRadius;
@@ -176,6 +222,7 @@ void Game_Play()
         player.position.x = DxPlus::CLIENT_WIDTH - playerRadius;
     }
    
+    //画面上下の当たり判定
     if (player.position.y < playerRadius)
     {
         player.position.y = playerRadius;
