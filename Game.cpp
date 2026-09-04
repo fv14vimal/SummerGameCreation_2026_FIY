@@ -7,7 +7,6 @@
 constexpr float MOVE_SPEED = 3.0f;
 constexpr float PLAYER_SCALE_MAG = 0.05f;
 constexpr float WALL_HALF_THICKNESS = 1.5f;
-constexpr DxPlus::Vec2 ARROW_POSITION = { 1180.0f, 60.0f }; // 画面右上の固定位置
 constexpr DxPlus::Vec2 ARROW_POSITION = { 1180.0f, 60.0f };
 
 struct WallRect
@@ -226,18 +225,15 @@ void Game_Render()
         DxPlus::Vec2 playerScale = { scaleX, PLAYER_SCALE_MAG };
         DxPlus::Sprite::Draw(player.spriteID, player.position, playerScale, playerCenterPx);
 
-        // 矢印：画面右上に固定表示、移動方向に応じて180度回転させる
         float arrowRotation = isMovingRight ? DxPlus::Deg2Rad * 180.0f :0.0f;
         DxPlus::Sprite::Draw(arrowID, ARROW_POSITION, { 0.05f, 0.05f }, arrowCenterPx, arrowRotation);
     }
 
-    if (gameFadeTimer > 0.0f)
     /*if (gameFadeTimer > 0.0f)
     {
         DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)(255 * gameFadeTimer));
         DxPlus::Primitive2D::DrawRect({ 0,0 }, { DxPlus::CLIENT_WIDTH, DxPlus::CLIENT_HEIGHT }, DxLib::GetColor(0, 0, 0));
         DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-    }
     }*/
 }
 
