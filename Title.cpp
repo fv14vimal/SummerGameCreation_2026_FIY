@@ -64,7 +64,7 @@ void Title_Update()
         {
             // EnterキーでGameシーンへ
             int input = DxPlus::Input::GetButtonDown(DxPlus::Input::PLAYER1);
-            if (input & DxPlus::Input::BUTTON_START)
+            if (input & DxPlus::Input::BUTTON_TRIGGER1)
             {
                 titleState++;
             }
@@ -100,7 +100,7 @@ void Title_Render()
     // Push Enterの点滅
     if (frameCount & 0x20)
     {
-        DxPlus::Text::DrawString(L"Push Enter", 
+        DxPlus::Text::DrawString(L"Push SPACE", 
             { DxPlus::CLIENT_WIDTH * 0.5f, DxPlus::CLIENT_HEIGHT * 0.75f }, 
             DxLib::GetColor(255,255,0), DxPlus::Text::TextAlign::MIDDLE_CENTER, 
             { 2.0f, 2.0f });
