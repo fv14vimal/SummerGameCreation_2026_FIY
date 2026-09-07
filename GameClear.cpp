@@ -1,18 +1,12 @@
 #include "GameClear.h"
-#include "DxPlus/DxPLus.h"
+#include "DxPlus/DxPlus.h"
 #include "WinMain.h"
 
 extern int nextScene;
 
-int gameClearID;
-
 void GameClear_Init()
 {
-	gameClearID = DxPlus::Sprite::Load(L"./Data/Images/GameClear.png");
-	if (gameClearID == -1)
-	{
-		DxPlus::Utils::FatalError(L"failed to load sprite : ./Data/Images/GameClear.png");
-	}
+	DxLib::SetBackgroundColor(35, 88, 50);
 }
 
 void GameClear_Update()
@@ -25,17 +19,16 @@ void GameClear_Update()
 
 void GameClear_Render()
 {
-	if (gameClearID != -1)
-	{
-		DxPlus::Sprite::Draw(gameClearID);
-	}
+	DxPlus::Text::DrawString(L"GAME CLEAR!",
+		{ DxPlus::CLIENT_WIDTH * 0.5f, DxPlus::CLIENT_HEIGHT * 0.42f },
+		DxLib::GetColor(255, 236, 89), DxPlus::Text::TextAlign::MIDDLE_CENTER,
+		{ 2.5f, 2.5f });
+	DxPlus::Text::DrawString(L"Push SPACE to return to the title",
+		{ DxPlus::CLIENT_WIDTH * 0.5f, DxPlus::CLIENT_HEIGHT * 0.58f },
+		DxLib::GetColor(255, 255, 255), DxPlus::Text::TextAlign::MIDDLE_CENTER,
+		{ 1.2f, 1.2f });
 }
 
 void GameClear_End()
 {
-	if (gameClearID != -1)
-	{
-		DxPlus::Sprite::Delete(gameClearID);
-		gameClearID = -1;
-	}
 }
