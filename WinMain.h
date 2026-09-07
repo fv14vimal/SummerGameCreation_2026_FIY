@@ -6,4 +6,5 @@ enum Scene
     SceneTitle, 
     SceneGame, 
     SceneGameOrve,
+    SceneGameClear,
 };

@@ -182,6 +182,7 @@
     <ClInclude Include="DxPlus\Vector2.h" />
     <ClInclude Include="Entity2D.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOrve.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="WinMain.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="DxPlus\TextAnimator.cpp" />
     <ClCompile Include="DxPlus\Utils.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GamOrve.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="WinMain.cpp" />
