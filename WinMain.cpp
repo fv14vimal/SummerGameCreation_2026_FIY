@@ -3,6 +3,7 @@
 #include "WinMain.h"
 #include "Title.h"
 #include "Game.h"
+#include "GameOrve.h"
 
 //----------------------------------------------------------------------
 // 変数
@@ -47,6 +48,10 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
             case SceneGame:
                 Game_End();
                 break;
+
+            case SceneGameOrve:
+                GameOver_End();
+                break;
             }
 
             // 次のシーンの初期設定関数を呼ぶ
@@ -58,6 +63,10 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
 
             case SceneGame:
                 Game_Init();
+                break;
+
+            case SceneGameOrve:
+                GameOver_Init();
                 break;
             }
 
@@ -81,6 +90,11 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
             Game_Update();
             Game_Render();
             break;
+
+        case SceneGameOrve:
+            GameOver_Update();
+            GameOver_Render();
+            break;
         }
 
         // デバッグ情報を描画する
@@ -101,6 +115,10 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
 
     case SceneGame:
         Game_End();
+        break;
+
+    case SceneGameOrve:
+        GameOver_End();
         break;
     }
 

@@ -212,6 +212,7 @@ void Game_Play()
     player.position.y += 3.5f;      //重力
     ResolveWallCollisions(prevX);
     ResolveFloorCollisions(prevY);
+
     //画面端左右の当たり判定
     if (player.position.x < playerRadius)
     {
