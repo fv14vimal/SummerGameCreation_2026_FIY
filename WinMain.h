@@ -4,7 +4,8 @@ enum Scene
 {
     SceneNone = -1, 
     SceneTitle, 
+    SceneSkill,
     SceneGame, 
-    SceneGameOrve,
+    SceneGameOver,
     SceneGameClear,
 };

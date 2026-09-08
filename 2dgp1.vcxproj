@@ -184,6 +184,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOrve.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
@@ -202,6 +203,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOrve.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>

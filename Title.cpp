@@ -1,6 +1,7 @@
 ﻿#include "Title.h"
 #include "DxPlus/DxPlus.h"
 #include "WinMain.h"
+#include "Skill.h"
 
 //----------------------------------------------------------------------
 // 定数
@@ -68,7 +69,6 @@ void Title_Update()
             {
                 titleState++;
             }
-
             break;
         }
 
@@ -78,11 +78,11 @@ void Title_Update()
             if (titleFadeTimer > 1.0f)
             {
                 titleFadeTimer = 1.0f;
-                nextScene = SceneGame;
+                nextScene = SceneSkill;
             }
             break;
         }
-    }
+    } 
 
     frameCount++;
 }

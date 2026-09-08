@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "GameOrve.h"
 #include "GameClear.h"
+#include "Skill.h"
 
 //----------------------------------------------------------------------
 // 変数
@@ -46,8 +47,16 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
                 Title_End();
                 break;
 
+            case SceneSkill:
+                Skill_End();
+                break;
+
             case SceneGame:
                 Game_End();
+                break;
+
+            case SceneGameOver:
+                GameOver_End();
                 break;
 
             case SceneGameClear:
@@ -62,8 +71,16 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
                 Title_Init();
                 break;
 
+            case SceneSkill:
+                Skill_Init();
+                break;
+
             case SceneGame:
                 Game_Init();
+                break;
+
+            case SceneGameOver:
+                GameOver_Init();
                 break;
 
             case SceneGameClear:
@@ -87,9 +104,19 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
             Title_Render();
             break;
 
+        case SceneSkill:
+            Skill_Update();
+            Skill_Render();
+            break;
+
         case SceneGame:
             Game_Update();
             Game_Render();
+            break;
+
+        case SceneGameOver:
+            GameOver_Update();
+            GameOver_Render();
             break;
 
         case SceneGameClear:
@@ -114,11 +141,19 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
         Title_End();
         break;
 
+    case SceneSkill:
+        Skill_End();
+        break;
+
     case SceneGame:
         Game_End();
         break;
 
-    case SceneGameOrve:
+    case SceneGameOver:
+        GameOver_End();
+        break;
+
+    case SceneGameClear:
         GameClear_End();
         break;
     }
