@@ -18,8 +18,10 @@ constexpr float MAX_FALL_SPEED = 8.0f;    // 落下速度の上限
 constexpr float END_ZONE_X = 1150.0f;
 constexpr float GATE_TARGET_WIDTH = 130.0f;
 constexpr float SPIDER_TARGET_WIDTH = 80.0f;
-constexpr float SPIDER_MOVE_SPEED = 2.0f; // 上下移動の速さ
+constexpr float SPIDER_MOVE_SPEED = 1.2f; // 上下移動の速さ（少しゆっくりにして通りやすくした）
 constexpr float SPIDER_HITBOX_SCALE = 0.55f; // 見た目より少し小さめの当たり判定にする
+constexpr float SWITCH_TARGET_WIDTH = 55.0f;
+constexpr DxPlus::Vec2 SWITCH_POSITION = { 1150.0f, 410.0f }; // Spring Floor(y=430)の右端寄りに設置
 
 constexpr DxPlus::Vec2 GATE_POSITIONS[] =
 {
@@ -46,6 +48,17 @@ struct SectionTransition
     DxPlus::Vec2 destination;
 };
 
+// スイッチで開閉する床。isOpen が false の間は完全に乗れない（すり抜ける）
+struct GatedFloor
+{
+    Line line;
+    bool isOpen;
+};
+
+// Spring Floor(y=430)の左端（section2寄り）は最初は閉じていて、
+// 右端に置いたスイッチを押すと開通する
+static GatedFloor springFloorGate = { {{854.0f, 430.0f}, {920.0f, 430.0f}}, false };
+
 // クモの敵キャラ。指定した範囲を上下に往復する
 struct Spider
 {
@@ -64,11 +77,13 @@ constexpr struct { float x; float topY; float bottomY; } SPIDER_SPAWNS[] =
     { 225.0f, 270.0f, 410.0f },
 
     // Section 2, gap 1: between the y=140 floor and the y=290 floor (overlap x: 550-700)
-    { 615.0f, 175.0f, 255.0f },
-    // Section 2, gap 2: between the y=290 floor and the y=400 floor (overlap x: 550-600)
-    { 575.0f, 315.0f, 375.0f },
+    { 615.0f, 190.0f, 240.0f },
     // Section 2, gap 3: between the y=400 floor and the y=550 floor (overlap x: 550-600)
-    { 575.0f, 430.0f, 520.0f },
+    { 575.0f, 430.0f, 480.0f },
+
+    // Section 3: guarding the approach to the switch, between the y=300 platform and the y=430 floor
+    { 950.0f, 330.0f, 400.0f },
+    { 1010.0f, 330.0f, 400.0f },
 };
 constexpr int SPIDER_COUNT = sizeof(SPIDER_SPAWNS) / sizeof(SPIDER_SPAWNS[0]);
 static Spider spiders[SPIDER_COUNT];
@@ -85,8 +100,8 @@ constexpr Line sideLines[] =
     {{550, 550}, {854, 550}},
     // Section 3
     {{854, 190}, {1100, 190}}, // Upper Platform
-    {{934, 300}, {1070, 300}}, // Switch Platform
-    {{854, 430}, {1165, 430}}, // Spring Floor (now a continuous platform through to the gate)
+    {{934, 300}, {1070, 300}}, // Switch Platform (normal, always open)
+    {{920, 430}, {1165, 430}}, // Spring Floor: always-open right portion (left portion is gated)
     {{1165, 430}, {1200, 430}},
     {{1024, 550}, {1165, 550}}
 };
@@ -110,7 +125,12 @@ int arrowID;
 int backID;
 int gateID;
 int spiderID;
+<<<<<<< Updated upstream
 int cheeseID;
+=======
+int switchOffID;
+int switchOnID;
+>>>>>>> Stashed changes
 
 Entity2D player;
 bool wasPressed = false;
@@ -129,6 +149,10 @@ static DxPlus::Vec2 spiderCenterPx = { 0.0f, 0.0f };
 static float spiderRadius = 0.0f;
 static float spiderScale = 1.0f;
 
+static DxPlus::Vec2 switchCenterPx = { 0.0f, 0.0f };
+static float switchRadius = 0.0f;
+static float switchScale = 1.0f;
+
 void Game_Init()
 {
     DxLib::SetBackgroundColor(0, 0, 0);
@@ -137,10 +161,17 @@ void Game_Init()
     backID = DxPlus::Sprite::Load(L"./Data/Images/background.png");
     gateID = DxPlus::Sprite::Load(L"./Data/Images/gate.png");
     spiderID = DxPlus::Sprite::Load(L"./Data/Images/spider.png");
+<<<<<<< Updated upstream
     cheeseID = DxPlus::Sprite::Load(L"./Data/Images/cheese.png");
+=======
+    switchOffID = DxPlus::Sprite::Load(L"./Data/Images/スイッチ.png");
+    switchOnID = DxPlus::Sprite::Load(L"./Data/Images/スイッチ_押した状態_.png");
+>>>>>>> Stashed changes
 
     if (gateID == -1) DxPlus::Utils::FatalError(L"Failed to load sprite: ./Data/Images/gate.png");
     if (spiderID == -1) DxPlus::Utils::FatalError(L"Failed to load sprite: ./Data/Images/spider.png");
+    if (switchOffID == -1) DxPlus::Utils::FatalError(L"Failed to load sprite: ./Data/Images/スイッチ.png");
+    if (switchOnID == -1) DxPlus::Utils::FatalError(L"Failed to load sprite: ./Data/Images/スイッチ_押した状態_.png");
 
     int imgW = 0, imgH = 0;
     DxLib::GetGraphSize(playerID, &imgW, &imgH);
@@ -161,6 +192,12 @@ void Game_Init()
     spiderCenterPx = { spiderW * 0.5f, spiderH * 0.5f };
     spiderScale = (spiderW > 0) ? (SPIDER_TARGET_WIDTH / spiderW) : 1.0f;
     spiderRadius = spiderW * spiderScale * 0.5f * SPIDER_HITBOX_SCALE;
+
+    int switchW = 0, switchH = 0;
+    DxLib::GetGraphSize(switchOffID, &switchW, &switchH);
+    switchCenterPx = { switchW * 0.5f, switchH * 0.5f };
+    switchScale = (switchW > 0) ? (SWITCH_TARGET_WIDTH / switchW) : 1.0f;
+    switchRadius = switchW * switchScale * 0.5f;
 
     for (int i = 0; i < WALL_COUNT; ++i)
     {
@@ -187,6 +224,7 @@ void Game_Reset()
     wasPressed = false;
     reachedEnd = false;
     isGameOver = false;
+    springFloorGate.isOpen = false;
 
     for (int i = 0; i < SPIDER_COUNT; ++i)
     {
@@ -266,6 +304,36 @@ void ResolveFloorCollisions(float prevY)
                 player.velocity.y = 0.0f;
             }
         }
+    }
+
+    // スイッチが押されるまでは springFloorGate には乗れない
+    if (springFloorGate.isOpen)
+    {
+        const Line& line = springFloorGate.line;
+        if (player.position.x + playerRadius >= line.start.x &&
+            player.position.x - playerRadius <= line.end.x)
+        {
+            if (prevY + playerRadius <= line.start.y &&
+                player.position.y + playerRadius >= line.start.y)
+            {
+                player.position.y = line.start.y - playerRadius;
+                player.velocity.y = 0.0f;
+            }
+        }
+    }
+}
+
+void CheckSwitchActivation()
+{
+    if (springFloorGate.isOpen) return;
+
+    float dx = player.position.x - SWITCH_POSITION.x;
+    float dy = player.position.y - SWITCH_POSITION.y;
+    float radiusSum = playerRadius + switchRadius;
+
+    if (dx * dx + dy * dy < radiusSum * radiusSum)
+    {
+        springFloorGate.isOpen = true;
     }
 }
 
@@ -375,6 +443,7 @@ void Game_Play()
 
     ResolveWallCollisions(prevX);
     ResolveFloorCollisions(prevY);
+    CheckSwitchActivation();
 
     UpdateSpiders();
     CheckSpiderCollisions();
@@ -422,8 +491,12 @@ void Game_Render()
 
     // SIDE 3
     DxPlus::Primitive2D::DrawLine({ 854, 190 }, { 1100, 190 }, DxLib::GetColor(194, 29, 17), 5.0f);
-    DxPlus::Primitive2D::DrawLine({ 934, 300 }, { 1070, 300 }, DxLib::GetColor(194, 29, 17), 5.0f); // Switch platform (now a normal platform)
-    DxPlus::Primitive2D::DrawLine({ 854, 430 }, { 1165, 430 }, DxLib::GetColor(194, 29, 17), 5.0f); // Continuous floor before the gate
+    DxPlus::Primitive2D::DrawLine({ 934, 300 }, { 1070, 300 }, DxLib::GetColor(194, 29, 17), 5.0f); // Switch platform (normal, always open)
+    if (springFloorGate.isOpen)
+    {
+        DxPlus::Primitive2D::DrawLine({ 854, 430 }, { 920, 430 }, DxLib::GetColor(194, 29, 17), 5.0f); // Gated portion (opens after the switch is pressed)
+    }
+    DxPlus::Primitive2D::DrawLine({ 920, 430 }, { 1165, 430 }, DxLib::GetColor(194, 29, 17), 5.0f); // Always-open portion, before the gate
     DxPlus::Primitive2D::DrawLine({ 1165, 430 }, { 1200, 430 }, DxLib::GetColor(194, 29, 17), 5.0f);
     DxPlus::Primitive2D::DrawLine({ 1024, 550 }, { 1165, 550 }, DxLib::GetColor(194, 29, 17), 5.0f);
 
@@ -440,6 +513,10 @@ void Game_Render()
     {
         DxPlus::Sprite::Draw(spiderID, spiders[i].position, { spiderScale, spiderScale }, spiderCenterPx);
     }
+
+    // Render Switch (off/on state)
+    int currentSwitchID = springFloorGate.isOpen ? switchOnID : switchOffID;
+    DxPlus::Sprite::Draw(currentSwitchID, SWITCH_POSITION, { switchScale, switchScale }, switchCenterPx);
 
     // Render Player
     if (player.isActive)
