@@ -3,24 +3,42 @@
 #include "WinMain.h"
 extern int nextScene;
 int gameClearID;
+int gameClearBGM;
 static DxPlus::Vec2 gameClearScale = { 1.0f, 1.0f };
 void GameClear_Init()
 {
-	DxLib::SetBackgroundColor(35, 88, 50);
+    DxLib::SetBackgroundColor(35, 88, 50);
 
-	gameClearID = DxPlus::Sprite::Load(L"./Data/Images/GameClear.png");
-	if (gameClearID == -1)
-	{
-		DxPlus::Utils::FatalError(L"failed to load sprite : ./Data/Images/GameClear.png");
-	}
+    gameClearID = DxPlus::Sprite::Load(L"./Data/Images/GameClear.png");
 
-	int imgW = 0, imgH = 0;
-	DxLib::GetGraphSize(gameClearID, &imgW, &imgH);
-	if (imgW > 0 && imgH > 0)
-	{
-		gameClearScale.x = static_cast<float>(DxPlus::CLIENT_WIDTH) / imgW;
-		gameClearScale.y = static_cast<float>(DxPlus::CLIENT_HEIGHT) / imgH;
-	}
+    if (gameClearID == -1)
+    {
+        DxPlus::Utils::FatalError(
+            L"failed to load sprite : ./Data/Images/GameClear.png");
+    }
+
+    gameClearBGM = DxLib::LoadSoundMem(
+        L"./Data/Sounds/game_clear.mp3");
+
+    if (gameClearBGM == -1)
+    {
+        DxPlus::Utils::FatalError(
+            L"failed to load sound : ./Data/Sounds/game_clear.mp3");
+    }
+
+    DxLib::PlaySoundMem(gameClearBGM, DX_PLAYTYPE_LOOP);
+
+    int imgW = 0, imgH = 0;
+    DxLib::GetGraphSize(gameClearID, &imgW, &imgH);
+
+    if (imgW > 0 && imgH > 0)
+    {
+        gameClearScale.x =
+            static_cast<float>(DxPlus::CLIENT_WIDTH) / imgW;
+
+        gameClearScale.y =
+            static_cast<float>(DxPlus::CLIENT_HEIGHT) / imgH;
+    }
 }
 void GameClear_Update()
 {
@@ -44,9 +62,17 @@ void GameClear_Render()
 }
 void GameClear_End()
 {
-	if (gameClearID != -1)
-	{
-		DxPlus::Sprite::Delete(gameClearID);
-		gameClearID = -1;
-	}
+    DxLib::StopSoundMem(gameClearBGM);
+
+    if (gameClearBGM != -1)
+    {
+        DxLib::DeleteSoundMem(gameClearBGM);
+        gameClearBGM = -1;
+    }
+
+    if (gameClearID != -1)
+    {
+        DxPlus::Sprite::Delete(gameClearID);
+        gameClearID = -1;
+    }
 }
