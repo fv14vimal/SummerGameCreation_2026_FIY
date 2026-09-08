@@ -4,6 +4,7 @@
 #include "Title.h"
 #include "Game.h"
 #include "GameOrve.h"
+#include "GameClear.h"
 
 //----------------------------------------------------------------------
 // 変数
@@ -49,8 +50,8 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
                 Game_End();
                 break;
 
-            case SceneGameOrve:
-                GameOver_End();
+            case SceneGameClear:
+                GameClear_End();
                 break;
             }
 
@@ -65,8 +66,8 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
                 Game_Init();
                 break;
 
-            case SceneGameOrve:
-                GameOver_Init();
+            case SceneGameClear:
+                GameClear_Init();
                 break;
             }
 
@@ -91,9 +92,9 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
             Game_Render();
             break;
 
-        case SceneGameOrve:
-            GameOver_Update();
-            GameOver_Render();
+        case SceneGameClear:
+            GameClear_Update();
+            GameClear_Render();
             break;
         }
 
@@ -118,7 +119,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
         break;
 
     case SceneGameOrve:
-        GameOver_End();
+        GameClear_End();
         break;
     }
 

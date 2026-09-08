@@ -201,7 +201,7 @@
     <ClCompile Include="DxPlus\Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClear.cpp" />
-    <ClCompile Include="GamOrve.cpp" />
+    <ClCompile Include="GameOrve.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>

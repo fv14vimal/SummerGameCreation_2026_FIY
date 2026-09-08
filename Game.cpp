@@ -3,6 +3,8 @@
 #include "WinMain.h"
 #include "Entity2D.h"
 #include <cmath>
+#include "GameClear.h"
+#include"GameOrve.h"
 
 constexpr float MOVE_SPEED = 3.0f;
 constexpr float PLAYER_SCALE_MAG = 0.05f;
@@ -26,8 +28,7 @@ constexpr DxPlus::Vec2 GATE_POSITIONS[] =
 {
     { 52.0f, 32.0f },    // スタート地点のトンネル
     { 454.0f, 40.0f },   // セクション1→2 着地トンネル
-    { 916.0f, 40.0f },   // セクション2→3 着地トンネル
-    { 1157.0f, 683.0f }  // ゴールのトンネル
+    { 916.0f, 40.0f }   // セクション2→3 着地トンネル
 };
 constexpr int GATE_COUNT = sizeof(GATE_POSITIONS) / sizeof(GATE_POSITIONS[0]);
 
@@ -96,6 +97,7 @@ int gateID;
 int springID;
 int switchOffID;
 int switchOnID;
+int cheeseID;
 Entity2D player;
 bool wasPressed = false;
 bool isMovingRight = true;
@@ -124,6 +126,7 @@ void Game_Init()
     springID = DxPlus::Sprite::Load(L"./Data/Images/spring.png");
     switchOffID = DxPlus::Sprite::Load(L"./Data/Images/switch_off.png");
     switchOnID = DxPlus::Sprite::Load(L"./Data/Images/switch_on.png");
+    cheeseID = DxPlus::Sprite::Load(L"./Data/Images/cheese.png");
 
     int imgW = 0, imgH = 0;
     DxLib::GetGraphSize(playerID, &imgW, &imgH);
@@ -343,7 +346,7 @@ void Game_Update()
         if (gameFadeTimer > 1.0f)
         {
             gameFadeTimer = 1.0f;
-            nextScene = reachedEnd ? SceneGameOrve : SceneTitle;
+            nextScene = reachedEnd ? SceneGameClear : SceneTitle;
         }
         break;
     }
@@ -420,6 +423,9 @@ void Game_Render()
     {
         DxPlus::Sprite::Draw(gateID, GATE_POSITIONS[i], { gateScale, gateScale }, gateCenterPx);
     }
+
+    //ゴールチーズの描画
+    DxPlus::Sprite::Draw(cheeseID, { 1157.0f, 683.0f } , { gateScale, gateScale }, gateCenterPx);
 
     // バネ
     DxPlus::Sprite::Draw(springID, SPRING_POSITION, { springScale, springScale }, springCenterPx);
