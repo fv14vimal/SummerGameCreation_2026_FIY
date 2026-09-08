@@ -50,7 +50,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
                 Game_End();
                 break;
 
-            case SceneGameOrve:
+            case SceneGameOver:
                 GameOver_End();
                 break;
 
@@ -70,7 +70,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
                 Game_Init();
                 break;
 
-            case SceneGameOrve:
+            case SceneGameOver:
                 GameOver_Init();
                 break;
 
@@ -100,7 +100,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
             Game_Render();
             break;
 
-        case SceneGameOrve:
+        case SceneGameOver:
             GameOver_Update();
             GameOver_Render();
             break;
@@ -131,7 +131,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
         Game_End();
         break;
 
-    case SceneGameOrve:
+    case SceneGameOver:
         GameOver_End();
         break;
 

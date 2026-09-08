@@ -5,6 +5,6 @@ enum Scene
     SceneNone = -1, 
     SceneTitle, 
     SceneGame, 
-    SceneGameOrve,
+    SceneGameOver,
     SceneGameClear,
 };
